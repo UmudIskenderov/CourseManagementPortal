@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Teachers";
+}
+
+@model TeacherViewModel
+
+<h1>Teacher List</h1>
+
+<table id="myTable" class="table table-striped table-bordered tbl">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>BirthDate</th>
+            <th>Profession</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var teacher in Model.Teachers)
+        {
+            <tr>
+                <td>@teacher.No</td>
+                <td>@teacher.Name</td>
+                <td>@teacher.Surname</td>
+                <td>@teacher.BirthDate.ToString(SystemConstants.DateFormat)</td>
+                <td>@teacher.Profession</td>
+                <td>
+                    <a asp-controller="Teachers" asp-action="Create" asp-route-id="@teacher.Id" class="btn btn-success">Update</a>
+                    <a class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmationModal" onclick="setTeacherId(@teacher.Id)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Teachers" asp-action="Create" class="btn btn-primary m-2">Add</a>
+
+<partial name="DeleteConfirmation" />
+
+@section Scripts{
+
+    <script>
+        let teacherId = null;
+
+        function setTeacherId(id) {
+            teacherId = id;
+        }
+
+        // Handle the delete confirmation button click event
+        $("#confirmDeleteButton").on("click", function () {
+
+            $.ajax({
+                url: "/Teachers/Delete/" + teacherId,
+                type: "DELETE",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = xhr.responseText; // Extract the error message from the response
+
+                    alert(errorMessage);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $("#myTable").DataTable();
+        });
+    </script>
+}

@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "StudentPrograms";
+}
+
+@model AddUpdateStudentProgramViewModel
+
+@{
+    if (Model == null)
+    {
+        <h2>Add Student's Program</h2>
+    }
+    else
+    {
+        <h2>Update Student's Program</h2>
+    }
+}
+<form asp-controller="StudentPrograms" asp-action="Create">
+    <input asp-for="StudentProgramId" hidden />
+
+    <div class="form-group">
+        <label asp-for="SelectedStudentId">Student:</label>
+        <select asp-for="SelectedStudentId" asp-items="new SelectList(Model?.Students, nameof(StudentModel.Id), nameof(StudentModel.FullName), nameof(StudentModel))" class="form-control">
+            <option value="">Select Student</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SelectedTeacherId">Teacher:</label>
+        <select asp-for="SelectedTeacherId" asp-items="new SelectList(Model?.Teachers, nameof(TeacherModel.Id), nameof(TeacherModel.FullName), nameof(TeacherModel))" class="form-control">
+            <option value="">Select Teacher</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SelectedCourseId">Course:</label>
+        <select asp-for="SelectedCourseId" asp-items="new SelectList(Model?.Courses, nameof(CourseModel.Id), nameof(CourseModel.Name), nameof(CourseModel))" class="form-control">
+            <option value="">Select Course</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="StartDate">StartDate:</label>
+        <input type="date" class="form-control" asp-for="StartDate">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="FirstDayOfWeek">FirstDayOfWeek:</label>
+        <select asp-for="FirstDayOfWeek" class="form-control">
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+            <option value="0">Sunday</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="LastDayOfWeek">LastDayOfWeek:</label>
+        <select asp-for="LastDayOfWeek" class="form-control">
+            <option value="1">Monday</option>
+            <option value="2">Tuesday</option>
+            <option value="3">Wednesday</option>
+            <option value="4">Thursday</option>
+            <option value="5">Friday</option>
+            <option value="6">Saturday</option>
+            <option value="0">Sunday</option>
+        </select>
+    </div>
+    
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

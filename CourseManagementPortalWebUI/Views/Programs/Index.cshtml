@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Programs";
+}
+
+@model ProgramViewModel
+
+<h1>Program List</h1>
+
+<table id="myTable" class="table table-striped table-bordered tbl">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>Course Name</th>
+            <th>Duration (Month)</th>
+            <th>Price (AZN)</th>
+            <th>Teacher Name</th>
+            <th>Teacher Surname</th>
+            <th>Teacher Profession</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var program in Model.Programs)
+        {
+            if (program.Course != null || program.Teacher != null)
+            {
+                <tr>
+                    <td>@program.No</td>
+                    <td>@program.Course?.Name</td>
+                    <td>@program.Course?.Duration</td>
+                    <td>@program.Course?.Price</td>
+                    <td>@program.Teacher?.Name</td>
+                    <td>@program.Teacher?.Surname</td>
+                    <td>@program.Teacher?.Profession</td>
+                    <td>
+                        <a asp-controller="Programs" asp-action="Create" asp-route-id="@program.Id" class="btn btn-success">Update</a>
+                        <a class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmationModal" onclick="setProgramId(@program.Id)">Delete</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<a asp-controller="Programs" asp-action="Create" class="btn btn-primary m-2">Add</a>
+
+<partial name="DeleteConfirmation" />
+
+@section Scripts{
+
+    <script>
+        let programId = null;
+
+        function setProgramId(id) {
+            programId = id;
+        }
+
+        // Handle the delete confirmation button click event
+        $("#confirmDeleteButton").on("click", function () {
+
+            $.ajax({
+                url: "/Programs/Delete/" + programId,
+                type: "DELETE",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = xhr.responseText; // Extract the error message from the response
+
+                    alert(errorMessage);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $("#myTable").DataTable();
+        });
+    </script>
+}

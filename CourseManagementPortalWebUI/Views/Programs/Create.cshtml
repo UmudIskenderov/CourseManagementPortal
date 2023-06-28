@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Programs";
+}
+
+@model AddUpdateProgramViewModel
+@{
+    if (Model == null)
+    {
+        <h2>Add Program</h2>
+    }
+    else
+    {
+        <h2>Update Program</h2>
+    }
+}
+
+<form asp-controller="Programs" asp-action="Create">
+    <input asp-for="ProgramId" hidden />
+
+    <div class="form-group">
+        <label asp-for="SelectedCourseId">Course:</label>
+        <select asp-for="SelectedCourseId" asp-items="new SelectList(Model?.Courses, nameof(CourseModel.Id), nameof(CourseModel.Name), nameof(CourseModel))" class="form-control">
+            <option value="">Select Course</option>
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SelectedTeacherId">Teacher:</label>
+        <select asp-for="SelectedTeacherId" asp-items="new SelectList(Model?.Teachers, nameof(TeacherModel.Id), nameof(TeacherModel.FullName), nameof(TeacherModel))" class="form-control">
+            <option value="">Select Teacher</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

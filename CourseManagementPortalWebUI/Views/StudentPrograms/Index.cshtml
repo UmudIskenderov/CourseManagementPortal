@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "StudentPrograms";
+}
+
+@model StudentProgramViewModel
+
+<h1>Students' Programs List</h1>
+
+<table id="myTable" class="table table-striped table-bordered tbl">
+    <thead>
+        <tr>
+            <th>No</th>
+            <th>StudentName</th>
+            <th>StudentSurname</th>
+            <th>TeacherName</th>
+            <th>TeacherSurname</th>
+            <th>Course</th>
+            <th>StartDate</th>
+            <th>EndDate</th>
+            <th>Detail</th>
+            <th>Actions</th>            
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var studentProgram in Model.StudentPrograms)
+        {
+            <tr>
+                <td>@studentProgram.No</td>
+                <td>@studentProgram.Student?.Name</td>
+                <td>@studentProgram.Student?.Surname</td>
+                <td>@studentProgram.Teacher?.Name</td>
+                <td>@studentProgram.Teacher?.Surname</td>
+                <td>@studentProgram.Course?.Name</td>
+                <td>@studentProgram.StartDate.ToString(SystemConstants.DateFormat)</td>
+                <td>@studentProgram.EndDate.ToString(SystemConstants.DateFormat)</td>    
+                <td>
+                    <a asp-controller="Attendances" asp-action="Index" asp-route-id="@studentProgram.Id" class="btn btn-success">Detail</a>
+                </td>
+                <td>
+                    <a asp-controller="StudentPrograms" asp-action="Create" asp-route-id="@studentProgram.Id" class="btn btn-success">Update</a>
+                    <a class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmationModal" onclick="setStudentProgramId(@studentProgram.Id)">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-controller="StudentPrograms" asp-action="Create" class="btn btn-primary m-2">Add</a>
+
+<partial name="DeleteConfirmation" />
+
+@section Scripts{
+
+    <script>
+        let studentProgramId = null;
+
+        function setStudentProgramId(id) {
+            studentProgramId = id;
+        }
+
+        // Handle the delete confirmation button click event
+        $("#confirmDeleteButton").on("click", function () {
+
+            $.ajax({
+                url: "/StudentPrograms/Delete/" + studentProgramId,
+                type: "DELETE",
+                success: function (response) {
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    var errorMessage = xhr.responseText; // Extract the error message from the response
+
+                    alert(errorMessage);
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $("#myTable").DataTable();
+        });
+    </script>
+}

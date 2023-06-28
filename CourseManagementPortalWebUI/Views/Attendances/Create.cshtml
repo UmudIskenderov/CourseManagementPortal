@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Attendance";
+}
+
+@model AddAttendanceViewModel
+
+@{
+    <h2>Add Student's Attendance</h2>
+}
+
+<form asp-controller="Attendances" asp-action="Create">
+    <input asp-for="StudentProgramId" hidden />
+
+    <div class="form-group">
+        <label asp-for="Note">Note:</label>
+        <textarea class="form-control" asp-for="Note"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IsParticipated"></label>
+        <div class="form-check">
+            <input asp-for="IsParticipated" class="form-check-input" />
+            <label class="form-check-label" asp-for="IsParticipated">Is Participated?</label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
