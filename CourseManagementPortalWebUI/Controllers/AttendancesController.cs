@@ -67,6 +67,10 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpPost]
         public IActionResult Create(AddAttendanceViewModel addAttendanceViewModel)
         {
+            if(ModelState.IsValid == false) 
+            {
+                return View(addAttendanceViewModel);
+            }
             var attendanceModel = new AttendanceModel()
             {
                 StudentProgram = _studentProgramService.GetById(addAttendanceViewModel.StudentProgramId),

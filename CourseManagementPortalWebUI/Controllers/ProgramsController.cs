@@ -49,8 +49,8 @@ namespace CourseManagementPortalWebUI.Controllers
                     return NotFound("Program not found");
 
                 addUpdateProgramViewModel.ProgramId = programModel.Id;
-                addUpdateProgramViewModel.SelectedCourse = programModel.Course;
-                addUpdateProgramViewModel.SelectedTeacher = programModel.Teacher;
+                addUpdateProgramViewModel.SelectedCourseId = programModel.Course.Id;
+                addUpdateProgramViewModel.SelectedTeacherId = programModel.Teacher.Id;
 
                 return View(addUpdateProgramViewModel);
             }
@@ -63,11 +63,15 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpPost]
         public IActionResult Create(AddUpdateProgramViewModel addUpdateProgramViewModel)
         {
+            if (ModelState.IsValid == false)
+            {
+                return View(addUpdateProgramViewModel);
+            }
             ProgramModel programModel = new ProgramModel();
 
-            programModel.Course.Id = addUpdateProgramViewModel.SelectedCourse.Id;
-            programModel.Teacher.Id = addUpdateProgramViewModel.SelectedTeacher.Id;
-            programModel.Id = addUpdateProgramViewModel.ProgramId;
+            if(addUpdateProgramViewModel.ProgramId != 0) programModel.Id = addUpdateProgramViewModel.ProgramId;
+            programModel.Course.Id = addUpdateProgramViewModel.SelectedCourseId;
+            programModel.Teacher.Id = addUpdateProgramViewModel.SelectedTeacherId;
 
             int id = _programService.Save(programModel);
 

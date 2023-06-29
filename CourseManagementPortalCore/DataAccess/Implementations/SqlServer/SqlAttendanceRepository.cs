@@ -3,6 +3,7 @@ using CourseManagementPortalCore.Domain.Entities;
 using CourseManagementPortalCore.Utils;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -153,7 +154,8 @@ namespace CourseManagementPortalCore.DataAccess.Implementations.SqlServer
         {
             Attendance attendance = new Attendance();
             attendance.Id = reader.GetInt32("AId");
-            attendance.Note = reader.GetString("Note");
+            if (reader.IsDBNull("Note") == false)
+                attendance.Note = reader.GetString("Note");
             attendance.Date = reader.GetDateTime("Date");
             attendance.IsParticipated = reader.GetBoolean("IsParticipated");
             attendance.StudentProgram = new StudentProgram()
@@ -196,7 +198,7 @@ namespace CourseManagementPortalCore.DataAccess.Implementations.SqlServer
         {
             command.Parameters.AddWithValue("studentProgramId", attendance.StudentProgram?.Id);
             command.Parameters.AddWithValue("date", attendance.Date);
-            command.Parameters.AddWithValue("note", attendance.Note);
+            command.Parameters.AddWithValue("note", attendance.Note ?? (object)DBNull.Value);
             command.Parameters.AddWithValue("isParticipated", attendance.IsParticipated);
         }       
     }

@@ -1,5 +1,6 @@
 ﻿using CourseManagementPortalCore.Domain.Entities;
 using CourseManagementPortalWebUI.Models.Interface;
+using System.ComponentModel.DataAnnotations;
 
 namespace CourseManagementPortalWebUI.Models.Implementations
 {

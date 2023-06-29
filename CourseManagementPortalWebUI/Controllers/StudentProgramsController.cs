@@ -56,9 +56,9 @@ namespace CourseManagementPortalWebUI.Controllers
                     return NotFound("Student's program not found");
 
                 addUpdateStudentProgramViewModel.StudentProgramId = studentProgramModel.Id;
-                addUpdateStudentProgramViewModel.SelectedCourse = studentProgramModel.Course;
-                addUpdateStudentProgramViewModel.SelectedTeacher = studentProgramModel.Teacher;
-                addUpdateStudentProgramViewModel.SelectedStudent = studentProgramModel.Student;
+                addUpdateStudentProgramViewModel.SelectedCourseId = studentProgramModel.Course.Id;
+                addUpdateStudentProgramViewModel.SelectedTeacherId = studentProgramModel.Teacher.Id;
+                addUpdateStudentProgramViewModel.SelectedStudentId = studentProgramModel.Student.Id;
                 addUpdateStudentProgramViewModel.StartDate = studentProgramModel.StartDate;
 
                 return View(addUpdateStudentProgramViewModel);
@@ -72,13 +72,17 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpPost]
         public IActionResult Create(AddUpdateStudentProgramViewModel addUpdateStudentProgramViewModel)
         {
+            if (ModelState.IsValid == false)
+            {
+                return View(addUpdateStudentProgramViewModel);
+            }
             StudentProgramModel studentProgramModel = new StudentProgramModel();
-            if(addUpdateStudentProgramViewModel.SelectedStudent.Id != 0) studentProgramModel.Id = addUpdateStudentProgramViewModel.StudentProgramId;
-            studentProgramModel.Course.Id = addUpdateStudentProgramViewModel.SelectedCourse.Id;
-            studentProgramModel.Teacher.Id = addUpdateStudentProgramViewModel.SelectedTeacher.Id;
-            studentProgramModel.Student.Id = addUpdateStudentProgramViewModel.SelectedStudent.Id;
+            if(addUpdateStudentProgramViewModel.StudentProgramId != 0) studentProgramModel.Id = addUpdateStudentProgramViewModel.StudentProgramId;
+            studentProgramModel.Course.Id = addUpdateStudentProgramViewModel.SelectedCourseId;
+            studentProgramModel.Teacher.Id = addUpdateStudentProgramViewModel.SelectedTeacherId;
+            studentProgramModel.Student.Id = addUpdateStudentProgramViewModel.SelectedStudentId;
             studentProgramModel.StartDate = addUpdateStudentProgramViewModel.StartDate;
-            studentProgramModel.EndDate = studentProgramModel.StartDate.AddMonths((int)_courseService.GetDuration(addUpdateStudentProgramViewModel.SelectedCourse.Id).Duration);
+            studentProgramModel.EndDate = studentProgramModel.StartDate.AddMonths((int)_courseService.GetDuration(addUpdateStudentProgramViewModel.SelectedCourseId).Duration);
 
             int id = _studentProgramService.Save(studentProgramModel);
             studentProgramModel.Id = id;

@@ -40,13 +40,18 @@ namespace CourseManagementPortalWebUI.Controllers
             }
             else
             {
-                return View();
+                StudentModel studentModel = new StudentModel();
+                return View(studentModel);
             }
         }
 
         [HttpPost]
         public IActionResult Create(StudentModel studentModel)
         {
+            if (ModelState.IsValid == false)
+            {
+                return View(studentModel);
+            }
             int id = _studentService.Save(studentModel);
 
             return RedirectToAction("Index");
