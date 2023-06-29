@@ -49,8 +49,9 @@ namespace CourseManagementPortalWebUI.Controllers
                     return NotFound("Program not found");
 
                 addUpdateProgramViewModel.ProgramId = programModel.Id;
-                addUpdateProgramViewModel.SelectedCourseId = programModel.Course == null ? 0 : programModel.Course.Id;
-                addUpdateProgramViewModel.SelectedTeacherId = programModel.Teacher == null ? 0 : programModel.Teacher.Id;
+                addUpdateProgramViewModel.SelectedCourse = programModel.Course;
+                addUpdateProgramViewModel.SelectedTeacher = programModel.Teacher;
+
                 return View(addUpdateProgramViewModel);
             }
             else
@@ -60,20 +61,13 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AddUpdateProgramViewModel? addUpdateProgramViewModel)
+        public IActionResult Create(AddUpdateProgramViewModel addUpdateProgramViewModel)
         {
-            if(addUpdateProgramViewModel == null || addUpdateProgramViewModel.SelectedCourseId == 0 || addUpdateProgramViewModel.SelectedTeacherId == 0)
-                return BadRequest();
-
             ProgramModel programModel = new ProgramModel();
 
-            TeacherModel? teacherModel = _teacherService.GetById(addUpdateProgramViewModel == null ? 0 : addUpdateProgramViewModel.SelectedTeacherId);
-
-            CourseModel? courseModel = _courseService.GetById(addUpdateProgramViewModel == null ? 0 : addUpdateProgramViewModel.SelectedCourseId);
-
-            programModel.Course = courseModel;
-            programModel.Teacher = teacherModel;
-            programModel.Id = addUpdateProgramViewModel == null ? 0 : addUpdateProgramViewModel.ProgramId;
+            programModel.Course.Id = addUpdateProgramViewModel.SelectedCourse.Id;
+            programModel.Teacher.Id = addUpdateProgramViewModel.SelectedTeacher.Id;
+            programModel.Id = addUpdateProgramViewModel.ProgramId;
 
             int id = _programService.Save(programModel);
 

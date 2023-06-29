@@ -18,22 +18,22 @@
     <input asp-for="StudentProgramId" hidden />
 
     <div class="form-group">
-        <label asp-for="SelectedStudentId">Student:</label>
-        <select asp-for="SelectedStudentId" asp-items="new SelectList(Model?.Students, nameof(StudentModel.Id), nameof(StudentModel.FullName), nameof(StudentModel))" class="form-control">
+        <label asp-for="SelectedStudent.Id">Student:</label>
+        <select asp-for="SelectedStudent.Id" asp-items="new SelectList(Model?.Students, nameof(StudentModel.Id), nameof(StudentModel.FullName), nameof(StudentModel))" class="form-control">
             <option value="">Select Student</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label asp-for="SelectedTeacherId">Teacher:</label>
-        <select asp-for="SelectedTeacherId" asp-items="new SelectList(Model?.Teachers, nameof(TeacherModel.Id), nameof(TeacherModel.FullName), nameof(TeacherModel))" class="form-control">
+        <label asp-for="SelectedTeacher.Id">Teacher:</label>
+        <select asp-for="SelectedTeacher.Id" asp-items="new SelectList(Model?.Teachers, nameof(TeacherModel.Id), nameof(TeacherModel.FullName), nameof(TeacherModel))" class="form-control">
             <option value="">Select Teacher</option>
         </select>
     </div>
 
     <div class="form-group">
-        <label asp-for="SelectedCourseId">Course:</label>
-        <select asp-for="SelectedCourseId" asp-items="new SelectList(Model?.Courses, nameof(CourseModel.Id), nameof(CourseModel.Name), nameof(CourseModel))" class="form-control">
+        <label asp-for="SelectedCourse.Id">Course:</label>
+        <select asp-for="SelectedCourse.Id" asp-items="new SelectList(Model?.Courses, nameof(CourseModel.Id), nameof(CourseModel.Name), nameof(CourseModel))" class="form-control">
             <option value="">Select Course</option>
         </select>
     </div>

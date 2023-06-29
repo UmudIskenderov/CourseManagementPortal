@@ -91,6 +91,26 @@ namespace CourseManagementPortalCore.DataAccess.Implementations.SqlServer
             }
         }
 
+        public byte GetDuration(int id)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                connection.Open();
+                string cmdText = @"select Duration from Courses where Courses.Id = @id";
+                using (SqlCommand command = new SqlCommand(cmdText, connection))
+                {
+                    command.Parameters.AddWithValue("id", id);
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read() == false)
+                    {
+                        return 0;
+                    }
+                    byte duration = reader.GetByte("Duration");
+                    return duration;
+                }
+            }
+        }
+
         public Course? GetById(int id)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))

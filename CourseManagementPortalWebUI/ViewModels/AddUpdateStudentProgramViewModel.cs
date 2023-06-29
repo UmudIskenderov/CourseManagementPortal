@@ -8,18 +8,21 @@ namespace CourseManagementPortalWebUI.ViewModels
         {
             Students = new List<StudentModel>();
             Teachers = new List<TeacherModel>();
-            Courses = new List<CourseModel>();            
+            Courses = new List<CourseModel>();
+            SelectedStudent = new StudentModel();
+            SelectedTeacher = new TeacherModel();
+            SelectedCourse = new CourseModel();
         }
 
         public int StudentProgramId { get; set; }
-        public int SelectedStudentId { get; set; }
-        public int SelectedTeacherId { get; set; }
-        public int SelectedCourseId { get; set; }
-        public int FirstDayOfWeek { get; set; }
-        public int LastDayOfWeek { get; set; }
-        public DateTime StartDate { get; set; }
         public List<StudentModel> Students { get; set; }
         public List<TeacherModel> Teachers { get; set; }
-        public List<CourseModel> Courses { get; set; }             
+        public List<CourseModel> Courses { get; set; }
+        public StudentModel SelectedStudent { get; set; }
+        public TeacherModel SelectedTeacher { get; set; }
+        public CourseModel SelectedCourse { get; set; }
+        public DateTime StartDate { get; set; }
+        public int FirstDayOfWeek { get; set; }
+        public int LastDayOfWeek { get; set; }
     }
 }

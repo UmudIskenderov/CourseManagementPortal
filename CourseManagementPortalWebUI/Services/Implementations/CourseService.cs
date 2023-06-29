@@ -44,6 +44,13 @@ namespace CourseManagementPortalWebUI.Services.Implementations
             return _mapper.Map(course);
         }
 
+        public CourseModel GetDuration(int id)
+        {
+            Course course = new Course();
+            course.Duration = _db.CourseRepository.GetDuration(id);
+            return _mapper.Map(course);
+        }
+
         public int Save(CourseModel model)
         {
             Course toBeSavedCourse = _mapper.Map(model);

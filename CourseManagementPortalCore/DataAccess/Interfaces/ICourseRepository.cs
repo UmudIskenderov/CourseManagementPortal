@@ -9,5 +9,6 @@ namespace CourseManagementPortalCore.DataAccess.Interfaces
 {
     public interface ICourseRepository : IEntityRepository<Course>
     {
+        byte GetDuration(int id);
     }
 }
