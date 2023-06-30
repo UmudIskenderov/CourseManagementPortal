@@ -40,7 +40,7 @@
 
     <div class="form-group">
         <label asp-for="StartDate">StartDate:</label>
-        <input type="date" class="form-control" asp-for="StartDate">
+        <input type="date" class="form-control" asp-for="StartDate" value="@Model?.StartDate.ToString("yyyy-MM-dd")">
         <span asp-validation-for="StartDate" class="text-danger"></span>
     </div>
 

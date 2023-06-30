@@ -76,34 +76,10 @@ namespace CourseManagementPortalWebUI.Controllers
             {
                 return View(addUpdateStudentProgramViewModel);
             }
-            StudentProgramModel studentProgramModel = new StudentProgramModel();
-            if(addUpdateStudentProgramViewModel.StudentProgramId != 0) studentProgramModel.Id = addUpdateStudentProgramViewModel.StudentProgramId;
-            studentProgramModel.Course.Id = addUpdateStudentProgramViewModel.SelectedCourseId;
-            studentProgramModel.Teacher.Id = addUpdateStudentProgramViewModel.SelectedTeacherId;
-            studentProgramModel.Student.Id = addUpdateStudentProgramViewModel.SelectedStudentId;
-            studentProgramModel.StartDate = addUpdateStudentProgramViewModel.StartDate;
-            studentProgramModel.EndDate = studentProgramModel.StartDate.AddMonths((int)_courseService.GetDuration(addUpdateStudentProgramViewModel.SelectedCourseId).Duration);
 
-            int id = _studentProgramService.Save(studentProgramModel);
-            studentProgramModel.Id = id;
-            
-            var lessonDayModels = new List<LessonDayModel>();
-            if (addUpdateStudentProgramViewModel.StudentProgramId != 0)
-            {
-                lessonDayModels = _lessonDayService.GetByStudentId(addUpdateStudentProgramViewModel.StudentProgramId);
-            }
+            var studentProgramModel = SaveStudentProgram(addUpdateStudentProgramViewModel);
 
-            LessonDayModel firstLessonDayModel = new LessonDayModel();
-            if (lessonDayModels.Count != 0) firstLessonDayModel.Id = lessonDayModels.First().Id;
-            firstLessonDayModel.StudentProgram = studentProgramModel;
-            firstLessonDayModel.DayOfWeek = (DayOfWeek)addUpdateStudentProgramViewModel.FirstDayOfWeek;
-            int firstId = _lessonDayService.Save(firstLessonDayModel);
-
-            LessonDayModel lastLessonDayModel = new LessonDayModel();
-            if (lessonDayModels.Count != 0) lastLessonDayModel.Id = lessonDayModels.Last().Id;
-            lastLessonDayModel.StudentProgram = studentProgramModel;
-            lastLessonDayModel.DayOfWeek = (DayOfWeek)addUpdateStudentProgramViewModel.LastDayOfWeek;
-            int lastId = _lessonDayService.Save(lastLessonDayModel);
+            SaveLessonDay(studentProgramModel, addUpdateStudentProgramViewModel);
 
             return RedirectToAction("Index");
         }
@@ -117,6 +93,42 @@ namespace CourseManagementPortalWebUI.Controllers
                 return Ok();
 
             return BadRequest();
+        }
+
+        private StudentProgramModel SaveStudentProgram(AddUpdateStudentProgramViewModel addUpdateStudentProgramViewModel)
+        {
+            StudentProgramModel studentProgramModel = new StudentProgramModel();
+            studentProgramModel.Id = addUpdateStudentProgramViewModel.StudentProgramId;
+            studentProgramModel.Course.Id = addUpdateStudentProgramViewModel.SelectedCourseId;
+            studentProgramModel.Teacher.Id = addUpdateStudentProgramViewModel.SelectedTeacherId;
+            studentProgramModel.Student.Id = addUpdateStudentProgramViewModel.SelectedStudentId;
+            studentProgramModel.StartDate = addUpdateStudentProgramViewModel.StartDate;
+            studentProgramModel.EndDate = studentProgramModel.StartDate.AddMonths((int)_courseService.GetDuration(addUpdateStudentProgramViewModel.SelectedCourseId).Duration);
+
+            int id = _studentProgramService.Save(studentProgramModel);
+
+            return studentProgramModel;
+        }
+
+        private void SaveLessonDay(StudentProgramModel studentProgramModel, AddUpdateStudentProgramViewModel addUpdateStudentProgramViewModel)
+        {
+            var lessonDayModels = new List<LessonDayModel>();
+            if (addUpdateStudentProgramViewModel.StudentProgramId != 0)
+            {
+                lessonDayModels = _lessonDayService.GetByStudentId(addUpdateStudentProgramViewModel.StudentProgramId);
+            }
+
+            LessonDayModel firstLessonDayModel = new LessonDayModel();
+            if (lessonDayModels.Count >= 0) firstLessonDayModel.Id = lessonDayModels.First().Id;
+            firstLessonDayModel.StudentProgram = studentProgramModel;
+            firstLessonDayModel.DayOfWeek = (DayOfWeek)addUpdateStudentProgramViewModel.FirstDayOfWeek;
+            int firstId = _lessonDayService.Save(firstLessonDayModel);
+
+            LessonDayModel lastLessonDayModel = new LessonDayModel();
+            if (lessonDayModels.Count >= 1) lastLessonDayModel.Id = lessonDayModels.Last().Id;
+            lastLessonDayModel.StudentProgram = studentProgramModel;
+            lastLessonDayModel.DayOfWeek = (DayOfWeek)addUpdateStudentProgramViewModel.LastDayOfWeek;
+            int lastId = _lessonDayService.Save(lastLessonDayModel);
         }
     }
 }

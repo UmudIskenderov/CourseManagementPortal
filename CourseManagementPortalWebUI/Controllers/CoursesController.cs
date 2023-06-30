@@ -8,7 +8,7 @@ namespace CourseManagementPortalWebUI.Controllers
     public class CoursesController : Controller
     {
         private readonly ICourseService _courseService;
-        public CoursesController(ICourseService courseService) 
+        public CoursesController(ICourseService courseService)
         {
             _courseService = courseService;
         }
@@ -16,12 +16,13 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            throw new Exception("jhgfxdcfvgh");
             var courseModels = _courseService.GetAll();
 
             var courseViewModel = new CourseViewModel();
-            
+
             courseViewModel.Courses = courseModels;
-            
+
             return View(courseViewModel);
         }
 
@@ -51,8 +52,9 @@ namespace CourseManagementPortalWebUI.Controllers
             {
                 return View(courseModel);
             }
-            int id = _courseService.Save(courseModel);
 
+            int id = _courseService.Save(courseModel);
+                        
             return RedirectToAction("Index");
         }
 
