@@ -16,7 +16,6 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            throw new Exception("jhgfxdcfvgh");
             var courseModels = _courseService.GetAll();
 
             var courseViewModel = new CourseViewModel();

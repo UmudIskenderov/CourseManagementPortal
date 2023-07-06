@@ -11,7 +11,6 @@ namespace CourseManagementPortalCore.DataAccess.Interfaces
         IAttendanceRepository AttendanceRepository { get; }
         ICourseRepository CourseRepository { get; }
         IStudentProgramRepository StudentProgramRepository { get; }
-        IGroupStudentRepository GroupStudentRepository { get; }
         ILessonDayRepository LessonDayRepository { get; }
         IProgramRepository ProgramRepository { get; }
         IStudentRepository StudentRepository { get; }

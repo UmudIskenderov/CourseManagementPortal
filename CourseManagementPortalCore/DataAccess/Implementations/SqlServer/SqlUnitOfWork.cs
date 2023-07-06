@@ -21,8 +21,6 @@ namespace CourseManagementPortalCore.DataAccess.Implementations.SqlServer
 
         public IStudentProgramRepository StudentProgramRepository => new SqlStudentProgramRepository(_connectionString);
 
-        public IGroupStudentRepository GroupStudentRepository => new SqlGroupStudentRepository(_connectionString);
-
         public ILessonDayRepository LessonDayRepository => new SqlLessonDayRepository(_connectionString);
 
         public IProgramRepository ProgramRepository => new SqlProgramRepository(_connectionString);
