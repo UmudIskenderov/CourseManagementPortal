@@ -35,15 +35,12 @@
                     <a asp-controller="Attendances" asp-action="Create" asp-route-id="@lessonDay.StudentProgram?.Id" class="btn btn-success">
                         <i class="fas fa-plus-circle"></i>
                     </a>
-                    @*<a asp-controller="Attendances" asp-action="Create" asp-route-id="@lessonDay.StudentProgram?.Id" class="btn btn-success">Add attendance</a>*@
                 </td>
 
             </tr>
         }
     </tbody>
 </table>
-
-<a asp-controller="StudentPrograms" asp-action="Create" class="btn btn-primary m-2">Add</a>
 
 @section Scripts{
 

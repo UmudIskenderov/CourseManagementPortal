@@ -106,6 +106,7 @@ namespace CourseManagementPortalWebUI.Controllers
             studentProgramModel.EndDate = studentProgramModel.StartDate.AddMonths((int)_courseService.GetDuration(addUpdateStudentProgramViewModel.SelectedCourseId).Duration);
 
             int id = _studentProgramService.Save(studentProgramModel);
+            studentProgramModel.Id = id;
 
             return studentProgramModel;
         }
@@ -119,13 +120,13 @@ namespace CourseManagementPortalWebUI.Controllers
             }
 
             LessonDayModel firstLessonDayModel = new LessonDayModel();
-            if (lessonDayModels.Count >= 0) firstLessonDayModel.Id = lessonDayModels.First().Id;
+            if (lessonDayModels.Count > 0) firstLessonDayModel.Id = lessonDayModels.First().Id;
             firstLessonDayModel.StudentProgram = studentProgramModel;
             firstLessonDayModel.DayOfWeek = (DayOfWeek)addUpdateStudentProgramViewModel.FirstDayOfWeek;
             int firstId = _lessonDayService.Save(firstLessonDayModel);
 
             LessonDayModel lastLessonDayModel = new LessonDayModel();
-            if (lessonDayModels.Count >= 1) lastLessonDayModel.Id = lessonDayModels.Last().Id;
+            if (lessonDayModels.Count > 1) lastLessonDayModel.Id = lessonDayModels.Last().Id;
             lastLessonDayModel.StudentProgram = studentProgramModel;
             lastLessonDayModel.DayOfWeek = (DayOfWeek)addUpdateStudentProgramViewModel.LastDayOfWeek;
             int lastId = _lessonDayService.Save(lastLessonDayModel);
