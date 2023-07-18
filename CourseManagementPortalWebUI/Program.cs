@@ -1,8 +1,9 @@
 using CorrelationId;
 using CorrelationId.DependencyInjection;
 using CourseManagementPortalCore.DataAccess.Implementations.SqlServer;
-using CourseManagementPortalCore.DataAccess.Interfaces;
-using CourseManagementPortalCore.Domain.Entities;
+using CourseManagementPortalDataAccess.Implementations.EntityFramework;
+using CourseManagementPortalDataAccess.Interfaces;
+using CourseManagementPortalEntities.Entities;
 using CourseManagementPortalWebUI.Mappers.Implementations;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Middlewares;
@@ -26,18 +27,18 @@ try
     // Add services to the container.
     builder.Services.AddControllersWithViews();
 
-    var connectionString = builder.Configuration.GetConnectionString("Default");
+    //var connectionString = builder.Configuration.GetConnectionString("Default");
 
     builder.Services.AddDefaultCorrelationId();
 
     builder.Services.AddTransient<IUnitOfWork>((serviceProvider) =>
     {
-        return new SqlUnitOfWork(connectionString);
+        return new UnitOfWork();
     });
 
     builder.Services.AddScoped<IBaseMapper<Course, CourseModel>, CourseMapper>();
     builder.Services.AddScoped<IBaseMapper<Teacher, TeacherModel>, TeacherMapper>();
-    builder.Services.AddScoped<IBaseMapper<CourseManagementPortalCore.Domain.Entities.Program, ProgramModel>, ProgramMapper>();
+    builder.Services.AddScoped<IBaseMapper<CourseManagementPortalEntities.Entities.Program, ProgramModel>, ProgramMapper>();
     builder.Services.AddScoped<IBaseMapper<Student, StudentModel>, StudentMapper>();
     builder.Services.AddScoped<IBaseMapper<StudentProgram, StudentProgramModel>, StudentProgramMapper>();
     builder.Services.AddScoped<IBaseMapper<Attendance, AttendanceModel>, AttendanceMapper>();

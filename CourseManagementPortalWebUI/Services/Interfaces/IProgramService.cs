@@ -7,6 +7,6 @@ namespace CourseManagementPortalWebUI.Services.Interfaces
         List<ProgramModel> GetAll();
         ProgramModel? GetById(int id);
         int Save(ProgramModel model);
-        bool Delete(int id);
+        bool Delete(ProgramModel model);
     }
 }

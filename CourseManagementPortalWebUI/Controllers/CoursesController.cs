@@ -1,4 +1,5 @@
 ﻿using CourseManagementPortalWebUI.Models.Implementations;
+using CourseManagementPortalWebUI.Services.Implementations;
 using CourseManagementPortalWebUI.Services.Interfaces;
 using CourseManagementPortalWebUI.ViewModels;
 using Microsoft.AspNetCore.Mvc;
@@ -60,7 +61,10 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var success = _courseService.Delete(id);
+            var course = _courseService.GetById(id);
+            var success = false;
+            if(course != null)
+                success = _courseService.Delete(course);
 
             if (success)
                 return Ok();

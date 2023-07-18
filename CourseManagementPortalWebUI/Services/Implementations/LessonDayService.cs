@@ -1,5 +1,5 @@
-﻿using CourseManagementPortalCore.DataAccess.Interfaces;
-using CourseManagementPortalCore.Domain.Entities;
+﻿using CourseManagementPortalEntities.Entities;
+using CourseManagementPortalDataAccess.Interfaces;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 using CourseManagementPortalWebUI.Services.Interfaces;
@@ -11,26 +11,31 @@ namespace CourseManagementPortalWebUI.Services.Implementations
     {
         private readonly IUnitOfWork _db;
         private readonly IBaseMapper<LessonDay, LessonDayModel> _mapper;
+        private readonly IStudentProgramService _studentProgramService;
 
-        public LessonDayService(IUnitOfWork db, IBaseMapper<LessonDay, LessonDayModel> mapper)
+        public LessonDayService(IUnitOfWork db, IBaseMapper<LessonDay, LessonDayModel> mapper, IStudentProgramService studentProgramService)
         {
             _db = db;
             _mapper = mapper;
+            _studentProgramService = studentProgramService;
         }
 
-        public bool Delete(int id)
+        public bool Delete(LessonDayModel model)
         {
-            return _db.LessonDayRepository.Delete(id);
+            var lessonDay = _mapper.Map(model);
+            return _db.LessonDayRepository.Delete(lessonDay);
         }
 
         public List<LessonDayModel> GetAll()
         {
             List<LessonDayModel> lessonDayModels = new List<LessonDayModel>();
-            List<LessonDay> LessonDays = _db.LessonDayRepository.Get();
+            List<LessonDay> LessonDays = _db.LessonDayRepository.GetAll();
+            var studentPrograms = _studentProgramService.GetAll();
             int no = 1;
             foreach (LessonDay lessonDay in LessonDays)
             {
                 LessonDayModel lessonDayModel = _mapper.Map(lessonDay);
+                lessonDayModel.StudentProgram = studentPrograms.FirstOrDefault(x => x.Id == lessonDay.StudentProgramId);
                 lessonDayModel.No = no++;
                 lessonDayModels.Add(lessonDayModel);
             }
@@ -40,11 +45,13 @@ namespace CourseManagementPortalWebUI.Services.Implementations
         public List<LessonDayModel> GetByDayOfWeek(DayOfWeek dayOfWeek)
         {
             List<LessonDayModel> lessonDayModels = new List<LessonDayModel>();
-            List<LessonDay> LessonDays = _db.LessonDayRepository.GetByDayOfWeek((byte) dayOfWeek);
+            List<LessonDay> LessonDays = _db.LessonDayRepository.GetAll(x=>x.DayOfWeek == (byte)dayOfWeek);
+            var studentPrograms = _studentProgramService.GetAll();
             int no = 1;
             foreach (LessonDay lessonDay in LessonDays)
             {
                 LessonDayModel lessonDayModel = _mapper.Map(lessonDay);
+                lessonDayModel.StudentProgram = studentPrograms.FirstOrDefault(x => x.Id == lessonDay.StudentProgramId);
                 lessonDayModel.No = no++;
                 lessonDayModels.Add(lessonDayModel);
             }
@@ -53,20 +60,24 @@ namespace CourseManagementPortalWebUI.Services.Implementations
 
         public LessonDayModel? GetById(int id)
         {
-            LessonDay? lessonDay = _db.LessonDayRepository.GetById(id);
+            LessonDay? lessonDay = _db.LessonDayRepository.Get(x=>x.Id == id);
             if (lessonDay == null)
                 return null;
-            return _mapper.Map(lessonDay);
+            var lessonDayModel = _mapper.Map(lessonDay);
+            lessonDayModel.StudentProgram = _studentProgramService.GetById(lessonDay.StudentProgramId);
+            return lessonDayModel;
         }
 
         public List<LessonDayModel> GetByStudentId(int studentId)
         {
             List<LessonDayModel> lessonDayModels = new List<LessonDayModel>();
-            List<LessonDay> LessonDays = _db.LessonDayRepository.GetByStudentId(studentId);
+            List<LessonDay> LessonDays = _db.LessonDayRepository.GetAll(x=>x.StudentProgramId == studentId);
+            var studentPrograms = _studentProgramService.GetAll();
             int no = 1;
             foreach (LessonDay lessonDay in LessonDays)
             {
                 LessonDayModel lessonDayModel = _mapper.Map(lessonDay);
+                lessonDayModel.StudentProgram = studentPrograms.FirstOrDefault(x => x.Id == lessonDay.StudentProgramId);
                 lessonDayModel.No = no++;
                 lessonDayModels.Add(lessonDayModel);
             }
@@ -83,7 +94,7 @@ namespace CourseManagementPortalWebUI.Services.Implementations
             }
             else
             {
-                LessonDay? existingLessonDay = _db.LessonDayRepository.GetById(model.Id);
+                LessonDay? existingLessonDay = _db.LessonDayRepository.Get(x=>x.Id == model.Id);
                 if (existingLessonDay == null)
                     return 0;
                 _db.LessonDayRepository.Update(toBeSavedLessonday);

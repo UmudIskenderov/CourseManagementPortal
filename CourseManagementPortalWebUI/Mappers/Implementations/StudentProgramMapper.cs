@@ -1,5 +1,5 @@
-﻿using CourseManagementPortalCore.Domain.Entities;
-using CourseManagementPortalCore.Domain.Interfaces;
+﻿using CourseManagementPortalEntities.Entities;
+using CourseManagementPortalEntities.Interfaces;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 
@@ -24,15 +24,15 @@ namespace CourseManagementPortalWebUI.Mappers.Implementations
             {
                 Id = entity.Id,
                 StartDate = entity.StartDate,
-                EndDate = entity.EndDate
+                EndDate = entity.EndDate                
             };
+            if(entity.Teacher != null)
+            {
+                studentProgramModel.Teacher = _teacherMapper.Map(entity.Teacher);
+            }
             if (entity.Student != null)
             {
                 studentProgramModel.Student = _studentMapper.Map(entity.Student);
-            }
-            if (entity.Teacher != null)
-            {
-                studentProgramModel.Teacher = _teacherMapper.Map(entity.Teacher);
             }
             if (entity.Course != null)
             {
@@ -52,15 +52,15 @@ namespace CourseManagementPortalWebUI.Mappers.Implementations
             };
             if (model.Student != null)
             {
-                studentProgram.Student = _studentMapper.Map(model.Student);
+                studentProgram.StudentId = model.Student.Id;
             }
             if (model.Teacher != null)
             {
-                studentProgram.Teacher = _teacherMapper.Map(model.Teacher);
+                studentProgram.TeacherId = model.Teacher.Id;
             }
             if (model.Course != null)
             {
-                studentProgram.Course = _courseMapper.Map(model.Course);
+                studentProgram.CourseId = model.Course.Id;
             }
 
             return studentProgram;

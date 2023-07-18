@@ -6,8 +6,8 @@ namespace CourseManagementPortalWebUI.Services.Interfaces
     {
         List<CourseModel> GetAll();
         CourseModel? GetById(int id);
-        CourseModel GetDuration(int id);
+        CourseModel? GetDuration(int id);
         int Save(CourseModel model);
-        bool Delete(int id);
+        bool Delete(CourseModel model);
     }
 }

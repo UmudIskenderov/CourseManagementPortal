@@ -7,6 +7,6 @@ namespace CourseManagementPortalWebUI.Services.Interfaces
         List<TeacherModel> GetAll();
         TeacherModel? GetById(int id);
         int Save(TeacherModel model);
-        bool Delete(int id);
+        bool Delete(TeacherModel model);
     }
 }

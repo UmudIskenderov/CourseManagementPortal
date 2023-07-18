@@ -1,4 +1,4 @@
-﻿using CourseManagementPortalCore.Domain.Entities;
+﻿using CourseManagementPortalEntities.Entities;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 

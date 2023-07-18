@@ -1,5 +1,5 @@
-﻿using CourseManagementPortalCore.DataAccess.Interfaces;
-using CourseManagementPortalCore.Domain.Entities;
+﻿using CourseManagementPortalEntities.Entities;
+using CourseManagementPortalDataAccess.Interfaces;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 using CourseManagementPortalWebUI.Services.Interfaces;
@@ -15,15 +15,16 @@ namespace CourseManagementPortalWebUI.Services.Implementations
             _db = db;
             _mapper = mapper;
         }
-        public bool Delete(int id)
+        public bool Delete(StudentModel model)
         {
-            return _db.StudentRepository.Delete(id);
+            var student = _mapper.Map(model);
+            return _db.StudentRepository.Delete(student);
         }
 
         public List<StudentModel> GetAll()
         {
             List<StudentModel> studentModels = new List<StudentModel>();
-            List<Student> students = _db.StudentRepository.Get();
+            List<Student> students = _db.StudentRepository.GetAll();
             int no = 1;
             foreach (Student student in students)
             {
@@ -36,7 +37,7 @@ namespace CourseManagementPortalWebUI.Services.Implementations
 
         public StudentModel? GetById(int id)
         {
-            Student? student = _db.StudentRepository.GetById(id);
+            Student? student = _db.StudentRepository.Get(x=>x.Id == id);
             if (student == null)
                 return null;
             return _mapper.Map(student);
@@ -54,7 +55,7 @@ namespace CourseManagementPortalWebUI.Services.Implementations
             }
             else
             {
-                Student? existingStudent = _db.StudentRepository.GetById(model.Id);
+                Student? existingStudent = _db.StudentRepository.Get(x => x.Id == model.Id);
                 if (existingStudent == null)
                     return 0;
                 toBeSavedStudent.CreationTime = existingStudent.CreationTime;

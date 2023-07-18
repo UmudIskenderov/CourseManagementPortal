@@ -8,6 +8,6 @@ namespace CourseManagementPortalWebUI.Services.Interfaces
         AttendanceModel? GetById(int id);
         List<AttendanceModel> GetByStudentId(int studentId);
         int Save(AttendanceModel model);
-        bool Delete(int id);
+        bool Delete(AttendanceModel model);
     }
 }

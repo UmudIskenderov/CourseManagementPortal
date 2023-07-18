@@ -1,5 +1,5 @@
-﻿using CourseManagementPortalCore.DataAccess.Interfaces;
-using CourseManagementPortalCore.Domain.Entities;
+﻿using CourseManagementPortalEntities.Entities;
+using CourseManagementPortalDataAccess.Interfaces;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 using CourseManagementPortalWebUI.Services.Interfaces;
@@ -9,25 +9,30 @@ namespace CourseManagementPortalWebUI.Services.Implementations
     public class ProgramService : IProgramService
     {
         private readonly IUnitOfWork _db;
-        private readonly IBaseMapper<CourseManagementPortalCore.Domain.Entities.Program, ProgramModel> _mapper;
-        public ProgramService(IUnitOfWork db, IBaseMapper<CourseManagementPortalCore.Domain.Entities.Program, ProgramModel> mapper)
+        private readonly IBaseMapper<CourseManagementPortalEntities.Entities.Program, ProgramModel> _mapper;
+        public ProgramService(IUnitOfWork db, IBaseMapper<CourseManagementPortalEntities.Entities.Program, ProgramModel> mapper)
         {
             _db = db;
             _mapper = mapper;
         }
 
-        public bool Delete(int id)
+        public bool Delete(ProgramModel model)
         {
-            return _db.ProgramRepository.Delete(id);
+            var program = _mapper.Map(model);
+            return _db.ProgramRepository.Delete(program);
         }
 
         public List<ProgramModel> GetAll()
         {
             List<ProgramModel> programModels = new List<ProgramModel>();
-            var programs = _db.ProgramRepository.Get();
+            var programs = _db.ProgramRepository.GetAll();
+            var teachers = _db.TeacherRepository.GetAll();
+            var courses = _db.CourseRepository.GetAll();
             int no = 1;
             foreach (var program in programs)
             {
+                program.Teacher = teachers.FirstOrDefault(x => x.Id == program.TeacherId);
+                program.Course = courses.FirstOrDefault(x => x.Id == program.CourseId);
                 ProgramModel programModel = _mapper.Map(program);
                 programModel.No = no++;
                 programModels.Add(programModel);
@@ -37,9 +42,11 @@ namespace CourseManagementPortalWebUI.Services.Implementations
 
         public ProgramModel? GetById(int id)
         {
-            var program = _db.ProgramRepository.GetById(id);
+            var program = _db.ProgramRepository.Get(x => x.Id == id);
             if (program == null)
                 return null;
+            program.Course = _db.CourseRepository.Get(x => x.Id == program.CourseId);
+            program.Teacher = _db.TeacherRepository.Get(x => x.Id == program.TeacherId);
             return _mapper.Map(program);
         }
 
@@ -53,7 +60,7 @@ namespace CourseManagementPortalWebUI.Services.Implementations
             }
             else
             {
-                var existingProgram = _db.ProgramRepository.GetById(model.Id);
+                var existingProgram = _db.ProgramRepository.Get(x => x.Id == model.Id);
                 if (existingProgram == null)
                     return 0;
                 _db.ProgramRepository.Update(toBeSavedProgram);

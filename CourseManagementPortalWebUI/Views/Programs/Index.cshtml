@@ -28,7 +28,7 @@
                     <td>@program.No</td>
                     <td>@program.Course?.Name</td>
                     <td>@program.Course?.Duration</td>
-                    <td>@program.Course?.Price</td>
+                    <td>@String.Format("{0:0,00}", program.Course?.Price)</td>
                     <td>@program.Teacher?.Name</td>
                     <td>@program.Teacher?.Surname</td>
                     <td>@program.Teacher?.Profession</td>

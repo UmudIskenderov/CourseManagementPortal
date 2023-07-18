@@ -1,5 +1,5 @@
-﻿using CourseManagementPortalCore.DataAccess.Interfaces;
-using CourseManagementPortalCore.Domain.Entities;
+﻿using CourseManagementPortalEntities.Entities;
+using CourseManagementPortalDataAccess.Interfaces;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 using CourseManagementPortalWebUI.Services.Interfaces;
@@ -15,15 +15,16 @@ namespace CourseManagementPortalWebUI.Services.Implementations
             _db = db;
             _mapper = mapper;
         }
-        public bool Delete(int id)
+        public bool Delete(TeacherModel model)
         {
-            return _db.TeacherRepository.Delete(id);
+            var teacher = _mapper.Map(model);
+            return _db.TeacherRepository.Delete(teacher);
         }
 
         public List<TeacherModel> GetAll()
         {
             List<TeacherModel> teacherModels = new List<TeacherModel>();
-            List<Teacher> teachers = _db.TeacherRepository.Get();
+            List<Teacher> teachers = _db.TeacherRepository.GetAll();
             int no = 1;
             foreach (Teacher teacher in teachers)
             {
@@ -36,7 +37,7 @@ namespace CourseManagementPortalWebUI.Services.Implementations
 
         public TeacherModel? GetById(int id)
         {
-            Teacher? teacher = _db.TeacherRepository.GetById(id);
+            Teacher? teacher = _db.TeacherRepository.Get(x=>x.Id == id);
             if (teacher == null)
                 return null;
             return _mapper.Map(teacher);
@@ -52,7 +53,7 @@ namespace CourseManagementPortalWebUI.Services.Implementations
             }
             else
             {
-                Teacher? existingTeacher = _db.TeacherRepository.GetById(model.Id);
+                Teacher? existingTeacher = _db.TeacherRepository.Get(x => x.Id == model.Id);
                 if (existingTeacher == null)
                     return 0;
                 _db.TeacherRepository.Update(toBeSavedTeacher);

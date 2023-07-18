@@ -1,4 +1,4 @@
-﻿using CourseManagementPortalCore.Domain.Entities;
+﻿using CourseManagementPortalEntities.Entities;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 
@@ -17,13 +17,13 @@ namespace CourseManagementPortalWebUI.Mappers.Implementations
         {
             var lessonDayModel = new LessonDayModel()
             {
-                 DayOfWeek = entity.DayOfWeek,
-                  Id = entity.Id                   
+                DayOfWeek = (DayOfWeek)entity.DayOfWeek,
+                Id = entity.Id,
+                StudentProgram = new StudentProgramModel()
+                {
+                    Id = entity.StudentProgramId
+                }
             };
-            if(entity.StudentProgram != null)
-            {
-                lessonDayModel.StudentProgram = _studentProgramMapper.Map(entity.StudentProgram);
-            }
 
             return lessonDayModel;
         }
@@ -33,11 +33,11 @@ namespace CourseManagementPortalWebUI.Mappers.Implementations
             var lessonDay = new LessonDay()
             {
                 Id = model.Id,
-                DayOfWeek = model.DayOfWeek,
+                DayOfWeek = (byte)model.DayOfWeek,
             };
-            if(model.StudentProgram != null)
+            if (model.StudentProgram != null)
             {
-                lessonDay.StudentProgram = _studentProgramMapper.Map(model.StudentProgram);
+                lessonDay.StudentProgramId = model.StudentProgram.Id;
             }
 
             return lessonDay;

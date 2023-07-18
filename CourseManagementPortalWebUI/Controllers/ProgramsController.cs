@@ -81,7 +81,10 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var success = _programService.Delete(id);
+            var program = _programService.GetById(id);
+            var success = false;
+            if(program != null)
+                success = _programService.Delete(program);
 
             if (success)
                 return Ok();

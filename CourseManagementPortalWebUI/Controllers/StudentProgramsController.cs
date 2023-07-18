@@ -1,4 +1,5 @@
-﻿using CourseManagementPortalCore.Domain.Entities;
+﻿using CourseManagementPortalEntities.Entities;
+using CourseManagementPortalWebUI.Exceptions;
 using CourseManagementPortalWebUI.Models.Implementations;
 using CourseManagementPortalWebUI.Services.Implementations;
 using CourseManagementPortalWebUI.Services.Interfaces;
@@ -87,7 +88,10 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var success = _studentProgramService.Delete(id);
+            var studentProgram = _studentProgramService.GetById(id);
+            var success = false;
+            if(studentProgram != null)
+                success = _studentProgramService.Delete(studentProgram);
 
             if (success)
                 return Ok();
@@ -103,10 +107,13 @@ namespace CourseManagementPortalWebUI.Controllers
             studentProgramModel.Teacher.Id = addUpdateStudentProgramViewModel.SelectedTeacherId;
             studentProgramModel.Student.Id = addUpdateStudentProgramViewModel.SelectedStudentId;
             studentProgramModel.StartDate = addUpdateStudentProgramViewModel.StartDate;
-            studentProgramModel.EndDate = studentProgramModel.StartDate.AddMonths((int)_courseService.GetDuration(addUpdateStudentProgramViewModel.SelectedCourseId).Duration);
+            var course = _courseService.GetDuration(addUpdateStudentProgramViewModel.SelectedCourseId);
+            if (course == null)
+                throw new AppException("Course is null");
+            studentProgramModel.EndDate = studentProgramModel.StartDate.AddMonths((int) course.Duration);
 
-            int id = _studentProgramService.Save(studentProgramModel);
-            studentProgramModel.Id = id;
+            _studentProgramService.Save(studentProgramModel);
+            studentProgramModel.Id = _studentProgramService.GetAll().Last().Id;
 
             return studentProgramModel;
         }

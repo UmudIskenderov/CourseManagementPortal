@@ -1,4 +1,4 @@
-﻿using CourseManagementPortalCore.Domain.Entities;
+﻿using CourseManagementPortalEntities.Entities;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 
@@ -20,12 +20,8 @@ namespace CourseManagementPortalWebUI.Mappers.Implementations
                 Id = entity.Id,
                 IsParticipated = entity.IsParticipated,
                 Note = entity.Note,
-                Date = entity.Date
+                Date = entity.Date               
             };
-            if (entity.StudentProgram != null)
-            {
-                attendanceModel.StudentProgram = _studentProgramMapper.Map(entity.StudentProgram);
-            }
 
             return attendanceModel;
         }
@@ -41,7 +37,7 @@ namespace CourseManagementPortalWebUI.Mappers.Implementations
             };
             if (model.StudentProgram != null)
             {
-                attendance.StudentProgram = _studentProgramMapper.Map(model.StudentProgram);
+                attendance.StudentProgramId = model.StudentProgram.Id;
             }
 
             return attendance;

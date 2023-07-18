@@ -85,7 +85,10 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var success = _attendanceService.Delete(id);
+            var attendance = _attendanceService.GetById(id);
+            var success = false;
+            if (attendance != null)
+                success = _attendanceService.Delete(attendance);
 
             if (success)
                 return Ok();

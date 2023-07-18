@@ -1,11 +1,11 @@
-﻿using CourseManagementPortalCore.Domain.Entities;
-using CourseManagementPortalCore.Domain.Interfaces;
+﻿using CourseManagementPortalEntities.Entities;
+using CourseManagementPortalEntities.Interfaces;
 using CourseManagementPortalWebUI.Mappers.Interfaces;
 using CourseManagementPortalWebUI.Models.Implementations;
 
 namespace CourseManagementPortalWebUI.Mappers.Implementations
 {
-    public class ProgramMapper : IBaseMapper<CourseManagementPortalCore.Domain.Entities.Program, ProgramModel>
+    public class ProgramMapper : IBaseMapper<CourseManagementPortalEntities.Entities.Program, ProgramModel>
     {
         private readonly IBaseMapper<Course, CourseModel> _courseMapper;
         private readonly IBaseMapper<Teacher, TeacherModel> _teacherMapper;
@@ -15,37 +15,37 @@ namespace CourseManagementPortalWebUI.Mappers.Implementations
             _teacherMapper = teacherMapper;
         }
 
-        public ProgramModel Map(CourseManagementPortalCore.Domain.Entities.Program entity)
+        public ProgramModel Map(CourseManagementPortalEntities.Entities.Program entity)
         {
             ProgramModel programModel = new ProgramModel()
             {
                 Id = entity.Id
             };
+            if(entity.Course != null)
+            {
+                programModel.Course = _courseMapper.Map(entity.Course);
+            }
             if(entity.Teacher != null)
             {
                 programModel.Teacher = _teacherMapper.Map(entity.Teacher);
-            }
-            if (entity.Course != null)
-            {
-                programModel.Course = _courseMapper.Map(entity.Course);
             }
 
             return programModel;
         }
 
-        public CourseManagementPortalCore.Domain.Entities.Program Map(ProgramModel model)
+        public CourseManagementPortalEntities.Entities.Program Map(ProgramModel model)
         {
-            var program = new CourseManagementPortalCore.Domain.Entities.Program()
+            var program = new CourseManagementPortalEntities.Entities.Program()
             {
                 Id = model.Id
             };
             if (model.Teacher != null)
             {
-                program.Teacher = _teacherMapper.Map(model.Teacher);
+                program.TeacherId = model.Teacher.Id;
             }
             if (model.Course != null)
             {
-                program.Course = _courseMapper.Map(model.Course);
+                program.CourseId = model.Course.Id;
             }
 
             return program;

@@ -23,7 +23,7 @@
                 <td>@course.No</td>
                 <td>@course.Name</td>
                 <td>@course.Duration</td>
-                <td>@course.Price</td>
+                <td>@String.Format("{0:0,00}", course.Price)</td>
                 <td>
                     <a asp-controller="Courses" asp-action="Create" asp-route-id="@course.Id" class="btn btn-success">Update</a>
                     <a class="btn btn-danger" data-toggle="modal" data-target="#deleteConfirmationModal" onclick="setCourseId(@course.Id)">Delete</a>

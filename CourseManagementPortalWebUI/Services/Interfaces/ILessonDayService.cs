@@ -9,6 +9,6 @@ namespace CourseManagementPortalWebUI.Services.Interfaces
         List<LessonDayModel> GetByDayOfWeek(DayOfWeek dayOfWeek);
         List<LessonDayModel> GetByStudentId(int studentId);
         int Save(LessonDayModel model);
-        bool Delete(int id);
+        bool Delete(LessonDayModel model);
     }
 }

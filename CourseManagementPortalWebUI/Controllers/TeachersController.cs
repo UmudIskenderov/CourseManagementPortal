@@ -60,7 +60,10 @@ namespace CourseManagementPortalWebUI.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var success = _teacherService.Delete(id);
+            var teacher = _teacherService.GetById(id);
+            var success = false;
+            if(teacher != null)
+                success = _teacherService.Delete(teacher);
 
             if (success)
                 return Ok();

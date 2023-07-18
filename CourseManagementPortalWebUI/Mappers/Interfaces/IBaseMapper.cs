@@ -1,5 +1,5 @@
-﻿using CourseManagementPortalCore.Domain.Entities;
-using CourseManagementPortalCore.Domain.Interfaces;
+﻿using CourseManagementPortalEntities.Entities;
+using CourseManagementPortalEntities.Interfaces;
 using CourseManagementPortalWebUI.Models;
 using CourseManagementPortalWebUI.Models.Interface;
 
