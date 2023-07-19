@@ -20,7 +20,7 @@ namespace CourseManagementPortalDataAccess.Factories
                     optionsBuilder.UseSqlServer(connectionString);
                     break;
                 case "MYSQL":
-                    connectionString = @"Server = localhost; Database = CourseManagementPortal; User ID=root";
+                    connectionString = @"Server = localhost; Port=3303; Database = CourseManagementPortal; User ID=root; Password=Umud.2003";
                     optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
                     break;
             }
