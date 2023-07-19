@@ -1,5 +1,5 @@
 # CourseManagementPortal
-This is a course management portal. Developed on .Net. It is optimized to work with both MySQL and MsSQL databases.
+This is a course management portal. Developed on .Net. It is optimized to work with both MySQL and MsSQL databases. The project used Entity Framework Core for database connection.
 
 -Database selection:
 
