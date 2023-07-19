@@ -1,4 +1,5 @@
-﻿using CourseManagementPortalEntities.Entities;
+﻿using CourseManagementPortalDataAccess.Factories;
+using CourseManagementPortalEntities.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
@@ -15,16 +16,13 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer(@"Server = localhost; Database = CourseManagementPortal1; Trusted_Connection=True; TrustServerCertificate=true"); // link
-
-            string connectionString = @"Server = localhost; Database = CourseManagementPortal; User ID=root";
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)); // link
+            DbFactory.Create(optionsBuilder);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-           
+
             modelBuilder.Entity<Course>(entity =>
             {
                 entity.HasKey(e => e.Id);

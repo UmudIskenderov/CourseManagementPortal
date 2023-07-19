@@ -1,5 +1,4 @@
-﻿using CourseManagementPortalCore.Domain.Entities;
-using CourseManagementPortalWebUI.Models.Interface;
+﻿using CourseManagementPortalWebUI.Models.Interface;
 
 namespace CourseManagementPortalWebUI.Models.Implementations
 {

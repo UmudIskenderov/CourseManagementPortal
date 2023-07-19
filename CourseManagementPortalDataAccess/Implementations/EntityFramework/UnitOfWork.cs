@@ -1,5 +1,4 @@
-﻿using CourseManagementPortalCore.DataAccess.Implementations.SqlServer;
-using CourseManagementPortalEntities.Entities;
+﻿using CourseManagementPortalEntities.Entities;
 using CourseManagementPortalDataAccess.Interfaces;
 using System;
 using System.Collections.Generic;

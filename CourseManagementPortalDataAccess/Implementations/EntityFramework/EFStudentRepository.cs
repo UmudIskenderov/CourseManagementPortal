@@ -1,5 +1,4 @@
 ﻿using CourseManagementPortalEntities.Entities;
-using CourseManagementPortalCore.Utils;
 using CourseManagementPortalDataAccess.Interfaces;
 using System;
 using System.Collections.Generic;

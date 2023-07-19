@@ -1,6 +1,5 @@
 using CorrelationId;
 using CorrelationId.DependencyInjection;
-using CourseManagementPortalCore.DataAccess.Implementations.SqlServer;
 using CourseManagementPortalDataAccess.Implementations.EntityFramework;
 using CourseManagementPortalDataAccess.Interfaces;
 using CourseManagementPortalEntities.Entities;
