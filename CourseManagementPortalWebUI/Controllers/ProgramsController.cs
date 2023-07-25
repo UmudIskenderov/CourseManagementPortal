@@ -20,7 +20,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Get()
         {
             var programModels = _programService.GetAll();
 
@@ -61,7 +61,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AddUpdateProgramViewModel addUpdateProgramViewModel)
+        public IActionResult Save(AddUpdateProgramViewModel addUpdateProgramViewModel)
         {
             if (ModelState.IsValid == false)
             {
@@ -75,7 +75,7 @@ namespace CourseManagementPortalWebUI.Controllers
 
             int id = _programService.Save(programModel);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Get");
         }
 
         [HttpDelete]

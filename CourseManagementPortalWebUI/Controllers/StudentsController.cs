@@ -15,7 +15,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Get()
         {
             var studentModels = _studentService.GetAll();
 
@@ -46,7 +46,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(StudentModel studentModel)
+        public IActionResult Save(StudentModel studentModel)
         {
             if (ModelState.IsValid == false)
             {
@@ -54,7 +54,7 @@ namespace CourseManagementPortalWebUI.Controllers
             }
             int id = _studentService.Save(studentModel);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Get");
         }
 
         [HttpDelete]

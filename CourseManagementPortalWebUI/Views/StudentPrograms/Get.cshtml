@@ -34,7 +34,7 @@
                 <td>@studentProgram.StartDate.ToString(SystemConstants.DateFormat)</td>
                 <td>@studentProgram.EndDate.ToString(SystemConstants.DateFormat)</td>    
                 <td>
-                    <a asp-controller="Attendances" asp-action="Index" asp-route-id="@studentProgram.Id" class="btn btn-success">Detail</a>
+                    <a asp-controller="Attendances" asp-action="GetAttendances" asp-route-id="@studentProgram.Id" class="btn btn-success">Detail</a>
                 </td>
                 <td>
                     <a asp-controller="StudentPrograms" asp-action="Create" asp-route-id="@studentProgram.Id" class="btn btn-success">Update</a>

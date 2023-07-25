@@ -26,7 +26,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Get()
         {
             var studentProgramModels = _studentProgramService.GetAll();
 
@@ -71,7 +71,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AddUpdateStudentProgramViewModel addUpdateStudentProgramViewModel)
+        public IActionResult Save(AddUpdateStudentProgramViewModel addUpdateStudentProgramViewModel)
         {
             if (ModelState.IsValid == false)
             {
@@ -82,7 +82,7 @@ namespace CourseManagementPortalWebUI.Controllers
 
             SaveLessonDay(studentProgramModel, addUpdateStudentProgramViewModel);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Get");
         }
 
         [HttpDelete]

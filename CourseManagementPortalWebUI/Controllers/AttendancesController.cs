@@ -1,4 +1,5 @@
-﻿using CourseManagementPortalWebUI.Models.Implementations;
+﻿using CourseManagementPortalWebUI.Constants;
+using CourseManagementPortalWebUI.Models.Implementations;
 using CourseManagementPortalWebUI.Services.Implementations;
 using CourseManagementPortalWebUI.Services.Interfaces;
 using CourseManagementPortalWebUI.ViewModels;
@@ -21,7 +22,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(int id)
+        public IActionResult GetAttendances(int id)
         {            
             var attendanceModels = _attendanceService.GetByStudentId(id);
 
@@ -33,7 +34,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddProgress()
+        public IActionResult Get()
         {            
             var currentDay = DateTime.Now.DayOfWeek;
             var lessonDayModels = _lessonDayService.GetByDayOfWeek(currentDay);
@@ -49,11 +50,12 @@ namespace CourseManagementPortalWebUI.Controllers
         public IActionResult Create(int id)
         {
             var attendancesModels = _attendanceService.GetByStudentId(id);
-            var isHaveAttendanceModels = attendancesModels.Any(x => x.Date.DayOfWeek == DateTime.Now.DayOfWeek);
+            var isHaveAttendanceModels = attendancesModels.Any(x => x.Date.DayOfWeek == DateTime.Now.DayOfWeek && 
+                                                                    x.Date.ToString(SystemConstants.DateFormat) == DateTime.Now.ToString(SystemConstants.DateFormat));
             if (isHaveAttendanceModels == true)
             {
                 TempData["Message"] = "This already added!";
-                return RedirectToAction("AddProgress");
+                return RedirectToAction("Get");
             }
             AddAttendanceViewModel addAttendanceViewModel = new AddAttendanceViewModel();
             var studentProgramModel = _studentProgramService.GetById(id);
@@ -65,7 +67,7 @@ namespace CourseManagementPortalWebUI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AddAttendanceViewModel addAttendanceViewModel)
+        public IActionResult Save(AddAttendanceViewModel addAttendanceViewModel)
         {
             if(ModelState.IsValid == false) 
             {
@@ -79,7 +81,7 @@ namespace CourseManagementPortalWebUI.Controllers
             };
             int id = _attendanceService.Save(attendanceModel);
 
-            return RedirectToAction("AddProgress");
+            return RedirectToAction("Get");
         }
 
         [HttpDelete]

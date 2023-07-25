@@ -1,5 +1,4 @@
-﻿using CourseManagementPortalDataAccess.Factories;
-using CourseManagementPortalEntities.Entities;
+﻿using CourseManagementPortalEntities.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
@@ -16,7 +15,8 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            DbFactory.Create(optionsBuilder);
+            string connectionString = @"Server = localhost; Port=3303; Database = CourseManagementPortal; User ID=root; Password=Umud.2003";
+            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
