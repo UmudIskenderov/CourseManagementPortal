@@ -1,15 +1,13 @@
 # CourseManagementPortal
-This is a course management portal. Developed on .Net. It is optimized to work with both MySQL and MsSQL databases. The project used Entity Framework Core for database connection.
+This is a course management portal. Developed on .Net. It is optimized to work with MySQL databases. The project used Entity Framework Core for database connection.
 
 -Database selection:
 
-Which database we will use should be noted from the text file "CourseManagementPortalWebUI\CourseManagementPortalDataAccess\DbConfig.txt": 
-    for MySQL database -> "MYSQL", 
-    for MsSQL database -> "SQLSERVER".
+If we want to use SQLSERVER, we can configure it inside the "OnConfiguring" method in the "CourseManagementPortalWebUI\CourseManagementPortalDataAccess\Implementations\EntityFramework\CourseManagementPortalContext.cs" file: "optionsBuilder.UseSqlServer(_connectionString);"
 
 -Connect to database:
 
-ConnectionString must be configured in the file "CourseManagementPortalWebUI\CourseManagementPortalDataAccess\Factories\DbFactory.cs" to connect to the database.
+ConnectionString must be configured in the file "CourseManagementPortalWebUI\CourseManagementPortalWebUI\appsettings.json" to connect to the database.
 
 -Creating a database:
 
