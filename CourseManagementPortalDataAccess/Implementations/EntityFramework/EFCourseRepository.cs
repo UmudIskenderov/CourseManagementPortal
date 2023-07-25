@@ -12,7 +12,10 @@ using System.Threading.Tasks;
 
 namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 {
-    public class EFCourseRepository : EfEntityRepositoryBase<Course, CourseManagementPortalContext>, ICourseRepository
+    public class EFCourseRepository : EfEntityRepositoryBase<Course>, ICourseRepository
     {
+        public EFCourseRepository(string connectionString) : base(connectionString)
+        {
+        }
     }
 }

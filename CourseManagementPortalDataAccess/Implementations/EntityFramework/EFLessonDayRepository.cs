@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 {
-    public class EFLessonDayRepository : EfEntityRepositoryBase<LessonDay, CourseManagementPortalContext>, ILessonDayRepository
+    public class EFLessonDayRepository : EfEntityRepositoryBase<LessonDay>, ILessonDayRepository
     {
+        public EFLessonDayRepository(string connectionString) : base(connectionString)
+        {
+        }
     }
 }

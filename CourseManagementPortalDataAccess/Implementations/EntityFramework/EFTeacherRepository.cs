@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 {
-    public class EFTeacherRepository : EfEntityRepositoryBase<Teacher, CourseManagementPortalContext>, ITeacherRepository
+    public class EFTeacherRepository : EfEntityRepositoryBase<Teacher>, ITeacherRepository
     {
+        public EFTeacherRepository(string connectionString) : base(connectionString)
+        {
+        }
     }
 }

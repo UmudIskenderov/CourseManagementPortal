@@ -26,14 +26,17 @@ try
     // Add services to the container.
     builder.Services.AddControllersWithViews();
 
-    //var connectionString = builder.Configuration.GetConnectionString("Default");
+    var connectionString = builder.Configuration.GetConnectionString("Default");
 
     builder.Services.AddDefaultCorrelationId();
 
-    builder.Services.AddTransient<IUnitOfWork>((serviceProvider) =>
+    if(connectionString != null)
     {
-        return new UnitOfWork();
-    });
+        builder.Services.AddTransient<IUnitOfWork>((serviceProvider) =>
+        {
+            return new UnitOfWork(connectionString);
+        });
+    }
 
     builder.Services.AddScoped<IBaseMapper<Course, CourseModel>, CourseMapper>();
     builder.Services.AddScoped<IBaseMapper<Teacher, TeacherModel>, TeacherMapper>();

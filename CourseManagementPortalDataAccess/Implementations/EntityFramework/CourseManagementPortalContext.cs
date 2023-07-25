@@ -5,6 +5,12 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 {
     public class CourseManagementPortalContext : DbContext
     {
+        private readonly string _connectionString;
+        public CourseManagementPortalContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public DbSet<Course> Courses { get; set; }
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Student> Students { get; set; }
@@ -15,8 +21,8 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string connectionString = @"Server = localhost; Port=3303; Database = CourseManagementPortal; User ID=root; Password=Umud.2003";
-            optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+            //string connectionString = @"Server = localhost; Port=3303; Database = CourseManagementPortal; User ID=root; Password=Umud.2003";
+            optionsBuilder.UseMySql(_connectionString, ServerVersion.AutoDetect(_connectionString));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -10,7 +10,10 @@ using System.Threading.Tasks;
 
 namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 {
-    public class EFAttendanceRepository : EfEntityRepositoryBase<Attendance, CourseManagementPortalContext>, IAttendanceRepository
+    public class EFAttendanceRepository : EfEntityRepositoryBase<Attendance>, IAttendanceRepository
     {
+        public EFAttendanceRepository(string connectionString) : base(connectionString)
+        {
+        }
     }
 }

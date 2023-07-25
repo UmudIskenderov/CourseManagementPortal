@@ -10,18 +10,23 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 {
     public class UnitOfWork : IUnitOfWork
     {
-        public IAttendanceRepository AttendanceRepository => new EFAttendanceRepository();
+        private readonly string _connectionString;
+        public UnitOfWork(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+        public IAttendanceRepository AttendanceRepository => new EFAttendanceRepository(_connectionString);
 
-        public ICourseRepository CourseRepository => new EFCourseRepository();
+        public ICourseRepository CourseRepository => new EFCourseRepository(_connectionString);
 
-        public IStudentProgramRepository StudentProgramRepository => new EFStudentProgramRepository();
+        public IStudentProgramRepository StudentProgramRepository => new EFStudentProgramRepository(_connectionString);
 
-        public ILessonDayRepository LessonDayRepository => new EFLessonDayRepository();
+        public ILessonDayRepository LessonDayRepository => new EFLessonDayRepository(_connectionString);
 
-        public IProgramRepository ProgramRepository => new EFProgramRepository();
+        public IProgramRepository ProgramRepository => new EFProgramRepository(_connectionString);
 
-        public IStudentRepository StudentRepository => new EFStudentRepository();
+        public IStudentRepository StudentRepository => new EFStudentRepository(_connectionString);
 
-        public ITeacherRepository TeacherRepository => new EFTeacherRepository();
+        public ITeacherRepository TeacherRepository => new EFTeacherRepository(_connectionString);
     }
 }

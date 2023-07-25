@@ -10,13 +10,18 @@ using CourseManagementPortalEntities.Interfaces;
 
 namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 {
-    public class EfEntityRepositoryBase<TEntity, TContext> : IEntityRepository<TEntity>
+    public class EfEntityRepositoryBase<TEntity> : IEntityRepository<TEntity>
         where TEntity : class, IEntity, new()
-        where TContext : DbContext, new()
     {
+        private readonly string _connectionString;
+        public EfEntityRepositoryBase(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public int Insert(TEntity entity)
         {
-            using (TContext context = new TContext())
+            using (CourseManagementPortalContext context = new CourseManagementPortalContext(_connectionString))
             {
                 var addedEntity = context.Entry(entity);
                 addedEntity.State = EntityState.Added;
@@ -26,7 +31,7 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         public bool Update(TEntity entity)
         {
-            using (TContext context = new TContext())
+            using (CourseManagementPortalContext context = new CourseManagementPortalContext(_connectionString))
             {
                 var updatedEntity = context.Entry(entity);
                 updatedEntity.State = EntityState.Modified;
@@ -36,7 +41,7 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         public bool Delete(TEntity entity)
         {
-            using (TContext context = new TContext())
+            using (CourseManagementPortalContext context = new CourseManagementPortalContext(_connectionString))
             {
                 var deletedEntity = context.Entry(entity);
                 deletedEntity.State = EntityState.Deleted;
@@ -46,7 +51,7 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         public TEntity? Get(Expression<Func<TEntity, bool>> filter)
         {
-            using (TContext context = new TContext())
+            using (CourseManagementPortalContext context = new CourseManagementPortalContext(_connectionString))
             {
                 return context.Set<TEntity>().FirstOrDefault(filter);
             }
@@ -54,7 +59,7 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>>? filter = null)
         {
-            using (TContext context = new TContext())
+            using (CourseManagementPortalContext context = new CourseManagementPortalContext(_connectionString))
             {
                 return filter == null
                     ? context.Set<TEntity>().ToList()
@@ -64,7 +69,7 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         public int GetNextId()
         {
-            using (TContext context = new TContext())
+            using (CourseManagementPortalContext context = new CourseManagementPortalContext(_connectionString))
             {
                 var result = context.Set<TEntity>().ToList()
                     .Select(t => t.GetType().GetProperties()[0]
@@ -79,7 +84,7 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         public void DeleteAll()
         {
-            using (TContext context = new TContext())
+            using (CourseManagementPortalContext context = new CourseManagementPortalContext(_connectionString))
             {
                 context.Set<TEntity>().Clear();
                 context.SaveChanges();

@@ -9,7 +9,10 @@ using System.Threading.Tasks;
 
 namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 {
-    public class EFStudentProgramRepository : EfEntityRepositoryBase<StudentProgram, CourseManagementPortalContext>, IStudentProgramRepository
+    public class EFStudentProgramRepository : EfEntityRepositoryBase<StudentProgram>, IStudentProgramRepository
     {
+        public EFStudentProgramRepository(string connectionString) : base(connectionString)
+        {
+        }
     }
 }
