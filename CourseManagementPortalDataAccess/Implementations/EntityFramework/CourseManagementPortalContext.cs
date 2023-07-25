@@ -21,7 +21,6 @@ namespace CourseManagementPortalDataAccess.Implementations.EntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //string connectionString = @"Server = localhost; Port=3303; Database = CourseManagementPortal; User ID=root; Password=Umud.2003";
             optionsBuilder.UseMySql(_connectionString, ServerVersion.AutoDetect(_connectionString));
         }
 
